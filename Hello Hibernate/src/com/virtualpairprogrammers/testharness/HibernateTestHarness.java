@@ -55,14 +55,25 @@ public class HibernateTestHarness {
 		
 		
 		//Update a student in the database
+//		SessionFactory sf = getSessionFactory();
+//		Session session = sf.openSession();
+//		Transaction tx = session.beginTransaction();
+//		
+//		Student myStudent = (Student) session.get(Student.class, 3);
+//		myStudent.setTutorName("Dave Salo");
+//		
+//		System.out.println(myStudent);
+//		
+//		tx.commit();
+//		session.close();
+		
+		
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Student myStudent = (Student) session.get(Student.class, 3);
-		myStudent.setTutor("Dave Salo");
-		
-		System.out.println(myStudent);
+		Student myStudent = new Student("Kathleen Heddle");
+		session.save(myStudent);
 		
 		tx.commit();
 		session.close();
@@ -83,5 +94,7 @@ public class HibernateTestHarness {
 		}
 		return sessionFactory;
 	}
+	
+	
 
 }

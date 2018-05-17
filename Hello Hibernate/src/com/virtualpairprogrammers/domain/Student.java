@@ -1,24 +1,28 @@
 package com.virtualpairprogrammers.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Represents a Student enrolled in the college management
  * system (CMS)
  */
+
 @Entity
+@Table(name="TBL_STUDENT")
 public class Student
 {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	// We're using property access, so the annotations are before the methods
 	private int id;
-	
     private String enrollmentID;
     private String name;
     private String tutorName; // This will become a class soon
+    private Integer numberOfCourses;
     
     /*
      * Empty constructor required by Hibernate
@@ -44,11 +48,7 @@ public class Student
     {
     	this.name = name;
     	this.tutorName = null;
-    }
-    
-    public int getId() 
-    {
-    	return this.id;
+    	this.numberOfCourses = 7;
     }
     
     public double calculateGradePointAverage()
@@ -64,10 +64,58 @@ public class Student
     {
     	return this.name;
     }
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    public int getId() 
+    {
+    	return this.id;
+    }
 
-	public void setTutor(String tutorName)
-	{
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getEnrollmentID() {
+		return enrollmentID;
+	}
+
+	public void setEnrollmentID(String enrollmentID) {
+		this.enrollmentID = enrollmentID;
+	}
+
+	public String getFullName() {
+		return name.toUpperCase();
+	}
+
+	public void setFullName(String name) {
+		this.name = name.toUpperCase();
+	}
+
+	public String getTutorName() {
+		return tutorName;
+	}
+
+	public void setTutorName(String tutorName) {
 		this.tutorName = tutorName;
 	}
+
+	@Column(name="NUM_COURSES")
+	public Integer getNumberOfCourses() {
+		return numberOfCourses;
+	}
+
+	public void setNumberOfCourses(Integer numberOfCourses) {
+		this.numberOfCourses = numberOfCourses;
+	}
+	
+	@Transient
+	public double getAverageScoreAcrossAllExams()
+	{
+		
+		// do some calculation
+		return 0;
+	}
+
 
 }
