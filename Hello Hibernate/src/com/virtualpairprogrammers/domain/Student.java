@@ -85,11 +85,11 @@ public class Student
 	}
 
 	public String getFullName() {
-		return name.toUpperCase();
+		return name;
 	}
 
 	public void setFullName(String name) {
-		this.name = name.toUpperCase();
+		this.name = name;
 	}
 
 	public String getTutorName() {
