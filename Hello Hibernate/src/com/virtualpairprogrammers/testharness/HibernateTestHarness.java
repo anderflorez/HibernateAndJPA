@@ -2,6 +2,7 @@ package com.virtualpairprogrammers.testharness;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
@@ -14,15 +15,58 @@ public class HibernateTestHarness {
 
 	public static void main(String[] args) 
 	{
-		Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
-		System.out.println(testStudent + " has a greade point average of " + testStudent.calculateGradePointAverage());
 		
-		//Save the student to the database
+		//Save a student to the database
+//		Student myStudent = new Student("Ricky Berens", "Eddie Reese");
+//		SessionFactory sf = getSessionFactory();
+//		Session session = sf.openSession();
+//		Transaction tx = session.beginTransaction();
+//		session.save(myStudent);
+//		
+//		System.out.println(myStudent);
+//		
+//		tx.commit();
+//		session.close();
 		
+		
+		//Retrieve a student from the database based on the id
+//		SessionFactory sf = getSessionFactory();
+//		Session session = sf.openSession();
+//		Transaction tx = session.beginTransaction();
+//
+//		Student myStudent = (Student) session.get(Student.class, 1);
+//		session.delete(myStudent);
+//		System.out.println(myStudent);
+//		
+//		tx.commit();
+//		session.close();		
+
+		//Delete a student from the database
+//		SessionFactory sf = getSessionFactory();
+//		Session session = sf.openSession();
+//		Transaction tx = session.beginTransaction();
+//
+//		Student myStudent = (Student) session.get(Student.class, 2);
+//		session.delete(myStudent);
+//		System.out.println(myStudent);
+//		
+//		tx.commit();
+//		session.close();
+		
+		
+		//Update a student in the database
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
 		
-		session.save(testStudent);
+		Student myStudent = (Student) session.get(Student.class, 3);
+		myStudent.setTutor("Dave Salo");
+		
+		System.out.println(myStudent);
+		
+		tx.commit();
+		session.close();
+		
 	}
 	
 	public static SessionFactory getSessionFactory() 

@@ -46,6 +46,11 @@ public class Student
     	this.tutorName = null;
     }
     
+    public int getId() 
+    {
+    	return this.id;
+    }
+    
     public double calculateGradePointAverage()
     {
     	// some complex business logic!
@@ -59,4 +64,10 @@ public class Student
     {
     	return this.name;
     }
+
+	public void setTutor(String tutorName)
+	{
+		this.tutorName = tutorName;
+	}
+
 }
