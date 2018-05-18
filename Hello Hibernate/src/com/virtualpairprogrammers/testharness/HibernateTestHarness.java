@@ -8,6 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.virtualpairprogrammers.domain.Student;
+import com.virtualpairprogrammers.domain.Tutor;
 
 public class HibernateTestHarness {
 	
@@ -100,6 +101,9 @@ public class HibernateTestHarness {
 		System.out.println(foundStudent);
 
 		foundStudent.allocateSupervisor(null);
+		
+		Tutor myTutor = (Tutor) session.get(Tutor.class, 2);
+		myTutor.
 		
 		tx.commit();
 		session.close();
