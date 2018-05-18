@@ -1,5 +1,7 @@
 package com.virtualpairprogrammers.testharness;
 
+import java.util.Set;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,92 +19,41 @@ public class HibernateTestHarness {
 	public static void main(String[] args) 
 	{
 		
-		//Save a student to the database
-//		Student myStudent = new Student("Ricky Berens", "Eddie Reese");
-//		SessionFactory sf = getSessionFactory();
-//		Session session = sf.openSession();
-//		Transaction tx = session.beginTransaction();
-//		session.save(myStudent);
-//		
-//		System.out.println(myStudent);
-//		
-//		tx.commit();
-//		session.close();
-		
-		
-		//Retrieve a student from the database based on the id
-//		SessionFactory sf = getSessionFactory();
-//		Session session = sf.openSession();
-//		Transaction tx = session.beginTransaction();
-//
-//		Student myStudent = (Student) session.get(Student.class, 1);
-//		session.delete(myStudent);
-//		System.out.println(myStudent);
-//		
-//		tx.commit();
-//		session.close();		
-
-		//Delete a student from the database
-//		SessionFactory sf = getSessionFactory();
-//		Session session = sf.openSession();
-//		Transaction tx = session.beginTransaction();
-//
-//		Student myStudent = (Student) session.get(Student.class, 2);
-//		session.delete(myStudent);
-//		System.out.println(myStudent);
-//		
-//		tx.commit();
-//		session.close();
-		
-		
-		//Update a student in the database
-//		SessionFactory sf = getSessionFactory();
-//		Session session = sf.openSession();
-//		Transaction tx = session.beginTransaction();
-//		
-//		Student myStudent = (Student) session.get(Student.class, 3);
-//		myStudent.setTutorName("Dave Salo");
-//		
-//		System.out.println(myStudent);
-//		
-//		tx.commit();
-//		session.close();
-		
-
-/*
-		//Create a relationship in the database
-		
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		//Create new student and tutor
-		Student myStudent = new Student("Alicia Cutts");
-		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 939383);
 		
-		session.save(myStudent);
+		
+		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 3876383);
+		
+		Student student1 = new Student("Rebecca Soni");
+		Student student2 = new Student("Zou Kai");
+		Student student3 = new Student("Chris Hoy");
+		
+		session.save(student1);
+		session.save(student2);
+		session.save(student3);
 		session.save(newTutor);
-		
-		//Make the student be supervised by that tutor
-		myStudent.allocateSupervisor(newTutor);
-		
-		//print out the supervisor
-		System.out.println(myStudent.getSupervisorName());
-		
-		tx.commit();
-		session.close();
-*/
-		
-		SessionFactory sf = getSessionFactory();
-		Session session = sf.openSession();
-		Transaction tx = session.beginTransaction();
-		
-		Student foundStudent = (Student) session.get(Student.class, 1);
-		System.out.println(foundStudent);
 
-		foundStudent.allocateSupervisor(null);
+		newTutor.addStudentToSupervisionGroup(student1);
+		newTutor.addStudentToSupervisionGroup(student2);
+		newTutor.addStudentToSupervisionGroup(student3);
 		
-		Tutor myTutor = (Tutor) session.get(Tutor.class, 2);
+//		Set<Student> students = newTutor.getSupervisionGroup();
+//		for (Student next : students) {
+//			System.out.println(next);
+//		}
+		
+		Tutor myTutor = (Tutor) session.get(Tutor.class, 1);
+		Set<Student> students = myTutor.getSupervisionGroup();
+		for (Student next : students) {
+			System.out.println(next);
+		}
+		
+		Student student4 = new Student("Cullen Jones");
+		session.save(student4);
+		myTutor.addStudentToSupervisionGroup(student4);
 		
 		
 		tx.commit();
