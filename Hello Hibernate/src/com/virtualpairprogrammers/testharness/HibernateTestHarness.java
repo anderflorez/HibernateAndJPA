@@ -67,13 +67,39 @@ public class HibernateTestHarness {
 //		tx.commit();
 //		session.close();
 		
+
+/*
+		//Create a relationship in the database
 		
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Student myStudent = new Student("Kathleen Heddle");
+		//Create new student and tutor
+		Student myStudent = new Student("Alicia Cutts");
+		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 939383);
+		
 		session.save(myStudent);
+		session.save(newTutor);
+		
+		//Make the student be supervised by that tutor
+		myStudent.allocateSupervisor(newTutor);
+		
+		//print out the supervisor
+		System.out.println(myStudent.getSupervisorName());
+		
+		tx.commit();
+		session.close();
+*/
+		
+		SessionFactory sf = getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		Student foundStudent = (Student) session.get(Student.class, 1);
+		System.out.println(foundStudent);
+
+		foundStudent.allocateSupervisor(null);
 		
 		tx.commit();
 		session.close();

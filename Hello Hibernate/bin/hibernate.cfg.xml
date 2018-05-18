@@ -24,6 +24,7 @@
         <property name="hbm2ddl.auto">update</property>
 
    		<mapping class="com.virtualpairprogrammers.domain.Student"/>
+   		<mapping class="com.virtualpairprogrammers.domain.Tutor" />
     </session-factory>
 
 </hibernate-configuration>

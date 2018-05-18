@@ -1,12 +1,11 @@
 package com.virtualpairprogrammers.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Represents a Student enrolled in the college management
@@ -14,15 +13,18 @@ import javax.persistence.Transient;
  */
 
 @Entity
-@Table(name="TBL_STUDENT")
 public class Student
 {
-	// We're using property access, so the annotations are before the methods
+	// We're using field access, so the annotations are before the fields instead of the get methods
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
     private String enrollmentID;
     private String name;
-    private String tutorName; // This will become a class soon
-    private Integer numberOfCourses;
+    
+    @ManyToOne
+    @JoinColumn(name="TUTOR_FK")
+    private Tutor supervisor;
     
     /*
      * Empty constructor required by Hibernate
@@ -35,10 +37,10 @@ public class Student
     /**
      * Initialises a student with a particular tutor
      */
-    public Student(String name, String tutorName)
+    public Student(String name, Tutor supervisor)
     {
     	this.name = name;
-    	this.tutorName = tutorName;
+    	this.supervisor = supervisor;
     }
     
     /**
@@ -47,8 +49,7 @@ public class Student
     public Student(String name)
     {
     	this.name = name;
-    	this.tutorName = null;
-    	this.numberOfCourses = 7;
+    	this.supervisor = null;
     }
     
     public double calculateGradePointAverage()
@@ -64,58 +65,27 @@ public class Student
     {
     	return this.name;
     }
-    
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+
     public int getId() 
     {
     	return this.id;
     }
 
-	public void setId(int id) {
-		this.id = id;
+	public void allocateSupervisor(Tutor newSupervisor)
+	{
+		this.supervisor = newSupervisor;		
 	}
 
-	public String getEnrollmentID() {
-		return enrollmentID;
-	}
-
-	public void setEnrollmentID(String enrollmentID) {
-		this.enrollmentID = enrollmentID;
-	}
-
-	public String getFullName() {
-		return name;
-	}
-
-	public void setFullName(String name) {
-		this.name = name;
-	}
-
-	public String getTutorName() {
-		return tutorName;
-	}
-
-	public void setTutorName(String tutorName) {
-		this.tutorName = tutorName;
-	}
-
-	@Column(name="NUM_COURSES")
-	public Integer getNumberOfCourses() {
-		return numberOfCourses;
-	}
-
-	public void setNumberOfCourses(Integer numberOfCourses) {
-		this.numberOfCourses = numberOfCourses;
+	public String getSupervisorName()
+	{
+		return this.supervisor.getName();
 	}
 	
-	@Transient
-	public double getAverageScoreAcrossAllExams()
+	public Tutor getSupervisor()
 	{
-		
-		// do some calculation
-		return 0;
+		return this.supervisor;
 	}
-
+	
+	
 
 }
