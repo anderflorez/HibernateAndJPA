@@ -103,7 +103,6 @@ public class HibernateTestHarness {
 		foundStudent.allocateSupervisor(null);
 		
 		Tutor myTutor = (Tutor) session.get(Tutor.class, 2);
-		myTutor.
 		
 		tx.commit();
 		session.close();
