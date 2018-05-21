@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  * Represents a Student enrolled in the college management
@@ -46,9 +44,10 @@ public class Student
     /**
      * Initialises a student with no pre set tutor
      */
-    public Student(String name)
+    public Student(String name, String enrollmentID)
     {
     	this.name = name;
+    	this.enrollmentID = enrollmentID;
 //    	this.supervisor = null;
     }
     
@@ -70,6 +69,11 @@ public class Student
     {
     	return this.id;
     }
+
+	public String getEnrollmentId()
+	{
+		return this.enrollmentID;
+	}
 
 //	public void allocateSupervisor(Tutor newSupervisor)
 //	{

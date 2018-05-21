@@ -1,8 +1,8 @@
 package com.virtualpairprogrammers.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Tutor {
@@ -23,8 +24,9 @@ public class Tutor {
 	private int salary;
 	
 	@OneToMany
+	@OrderBy("name")
 	@JoinColumn(name="TUTOR_FK")
-	private Set<Student> supervisionGroup;
+	private List<Student> supervisionGroup;
 	
 	// Required by Hibernate
 	public Tutor()
@@ -37,7 +39,7 @@ public class Tutor {
 		this.staffId = staffId;
 		this.name = name;
 		this.salary = salary;
-		this.supervisionGroup = new HashSet<>();
+		this.supervisionGroup = new ArrayList<>();
 	}
 	
 	public void addStudentToSupervisionGroup(Student studentToAdd)
@@ -45,9 +47,9 @@ public class Tutor {
 		this.supervisionGroup.add(studentToAdd);
 	}
 	
-	public Set<Student> getSupervisionGroup() 
+	public List<Student> getSupervisionGroup() 
 	{
-		Set<Student> unmodifiable = Collections.unmodifiableSet(this.supervisionGroup);
+		List<Student> unmodifiable = Collections.unmodifiableList(this.supervisionGroup);
 		return unmodifiable;
 	}
 

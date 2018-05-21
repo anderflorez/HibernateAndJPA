@@ -1,6 +1,6 @@
 package com.virtualpairprogrammers.testharness;
 
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,38 +22,28 @@ public class HibernateTestHarness {
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-		
-		
-		
-		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 3876383);
-		
-		Student student1 = new Student("Rebecca Soni");
-		Student student2 = new Student("Zou Kai");
-		Student student3 = new Student("Chris Hoy");
-		
-		session.save(student1);
-		session.save(student2);
-		session.save(student3);
-		session.save(newTutor);
 
-		newTutor.addStudentToSupervisionGroup(student1);
-		newTutor.addStudentToSupervisionGroup(student2);
-		newTutor.addStudentToSupervisionGroup(student3);
+//		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 3876383);
+//		
+//		Student student1 = new Student("Rebecca Soni", "1-SON-2012");
+//		Student student2 = new Student("Zou Kai", "2-KAI-2009");
+//		Student student3 = new Student("Chris Hoy", "3-HOY-1997");
+//		
+//		session.save(student1);
+//		session.save(student2);
+//		session.save(student3);
+//		session.save(newTutor);
+//
+//		newTutor.addStudentToSupervisionGroup(student1);
+//		newTutor.addStudentToSupervisionGroup(student2);
+//		newTutor.addStudentToSupervisionGroup(student3);
 		
-//		Set<Student> students = newTutor.getSupervisionGroup();
-//		for (Student next : students) {
-//			System.out.println(next);
-//		}
 		
 		Tutor myTutor = (Tutor) session.get(Tutor.class, 1);
-		Set<Student> students = myTutor.getSupervisionGroup();
+		List<Student> students = myTutor.getSupervisionGroup();
 		for (Student next : students) {
 			System.out.println(next);
 		}
-		
-		Student student4 = new Student("Cullen Jones");
-		session.save(student4);
-		myTutor.addStudentToSupervisionGroup(student4);
 		
 		
 		tx.commit();
@@ -76,6 +66,4 @@ public class HibernateTestHarness {
 		return sessionFactory;
 	}
 	
-	
-
 }
