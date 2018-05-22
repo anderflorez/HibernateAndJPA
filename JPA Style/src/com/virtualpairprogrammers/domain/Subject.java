@@ -25,7 +25,7 @@ public class Subject
 	private Set<Tutor> qualifiedTutors;
 	
 	// Hibernate required a no-argument constructor
-	private Subject() {}
+	public Subject() {}
 
 	public Subject(String name, int numberOfSemesters)
 	{

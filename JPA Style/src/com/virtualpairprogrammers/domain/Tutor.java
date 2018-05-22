@@ -32,8 +32,7 @@ public class Tutor {
 	private Set<Subject> subjectsQualifiedToTeach;
 	
 	// Required by Hibernate
-	public Tutor()
-	{}
+	public Tutor() {}
 
 	//Business constructor
 	public Tutor(String staffId, String name, int salary)
@@ -112,10 +111,10 @@ public class Tutor {
 		return true;
 	}
 
-	public void createStudentAndAddToSupervisionGroup(String studentName, String enrollmentId)
+	public void createStudentAndAddToSupervisionGroup(String studentName, String enrollmentId, String street, String city, String zipOrPostcode)
 	{
-		Student student = new Student(studentName, enrollmentId);
-		this.addStudentToSupervisionGroup(student);		
+		Student student = new Student(studentName, enrollmentId, street, city, zipOrPostcode);
+		this.addStudentToSupervisionGroup(student);
 	}
 	
 	

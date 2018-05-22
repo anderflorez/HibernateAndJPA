@@ -2,6 +2,7 @@ package com.virtualpairprogrammers.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,9 @@ public class Student
     @JoinColumn(name="TUTOR_FK")
     private Tutor supervisor;
     
+    @Embedded
+    private Address address;
+    
     /*
      * Empty constructor required by Hibernate
      */
@@ -39,22 +43,20 @@ public class Student
     }
     
     /**
-     * Initialises a student with a particular tutor
-     */
-    public Student(String name, Tutor supervisor)
-    {
-    	this.name = name;
-    	this.supervisor = supervisor;
-    }
-    
-    /**
      * Initialises a student with no pre set tutor
      */
-    public Student(String name, String enrollmentID)
+    public Student(String name, String enrollmentID, String street, String city, String zipOrPostcode)
     {
     	this.name = name;
     	this.enrollmentID = enrollmentID;
     	this.supervisor = null;
+    	this.address = new Address(street, city, zipOrPostcode);
+    }
+    
+    public Student(String name, String enrollmentID)
+    {
+    	this.name = name;
+    	this.enrollmentID = enrollmentID;
     }
     
     public double calculateGradePointAverage()
@@ -79,7 +81,7 @@ public class Student
     
     public String toString() 
     {
-    	return this.name;
+    	return this.name + " lives at: " + this.address;
     }
 
     public int getId() 
@@ -95,6 +97,16 @@ public class Student
 	public Tutor getSupervisor()
 	{
 		return this.supervisor;
+	}
+	
+	public Address getAddress()
+	{
+		return address;
+	}
+
+	public void setAddress(Address address)
+	{
+		this.address = address;
 	}
 
 	@Override
