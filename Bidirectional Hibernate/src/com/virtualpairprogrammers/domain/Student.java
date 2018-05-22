@@ -1,5 +1,6 @@
 package com.virtualpairprogrammers.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Student
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
     
+    @Column(unique=true, nullable=false)
     private String enrollmentID;
     private String name;
     
@@ -93,6 +95,33 @@ public class Student
 	{
 		return this.supervisor;
 	}
-	
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((enrollmentID == null) ? 0 : enrollmentID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		if (enrollmentID == null)
+		{
+			if (other.enrollmentID != null)
+				return false;
+		} else if (!enrollmentID.equals(other.enrollmentID))
+			return false;
+		return true;
+	}
+	
 }

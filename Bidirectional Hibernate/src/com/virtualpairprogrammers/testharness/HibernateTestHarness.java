@@ -10,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.virtualpairprogrammers.domain.Student;
+import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
 
 public class HibernateTestHarness {
@@ -23,15 +24,17 @@ public class HibernateTestHarness {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Student myStudent = new Student("Alicia Coutts", "5-COU-2009");
-		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 939383);
+//		Student myStudent = new Student("Alicia Coutts", "5-COU-2009");
+//		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 939383);
+//		
+//		session.save(myStudent);
+//		session.save(newTutor);
+//		
+//		myStudent.allocateSupervisor(newTutor);
+//		
+//		System.out.println(myStudent.getSupervisorName());
 		
-		session.save(myStudent);
-		session.save(newTutor);
 		
-		myStudent.allocateSupervisor(newTutor);
-		
-		System.out.println(myStudent.getSupervisorName());
 
 //		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 3876383);
 //		
@@ -61,6 +64,42 @@ public class HibernateTestHarness {
 //		System.out.println(myStudentTutor);
 		
 		
+		//Many to many relationship
+//		Subject subject1 = new Subject("Math", 3);
+//		Subject subject2 = new Subject("Science", 6);
+//
+//		session.save(subject1);
+//		session.save(subject2);
+//		
+//		newTutor.addSubjectToQuialifications(subject1);
+//		newTutor.addSubjectToQuialifications(subject2);
+//		
+//		Tutor secondTutor = new Tutor("GHJ3838", "Ben Ainslie", 3883833);
+//		session.save(secondTutor);
+//		
+//		secondTutor.addSubjectToQuialifications(subject2);
+		
+		
+		Tutor t1 = new Tutor("ABC123", "David Banks", 2939393);
+		session.save(t1);
+		
+		Student s1 = new Student("Marco Fortes", "1-FOR-2010");
+		t1.addStudentToSupervisionGroup(s1);
+		
+		Student s2 = new Student("Luke Adams", "2-ADA-2009");
+		t1.addStudentToSupervisionGroup(s2);
+		
+		Student s3 = new Student("Angie Bainbridge", "3-BAI-2008");
+		t1.addStudentToSupervisionGroup(s3);
+		
+		session.save(s1);
+		session.save(s2);
+		session.save(s3);
+		
+		Set<Student> allStudents = t1.getSupervisionGroup();
+		
+		System.out.println(allStudents.size());;
+			
 		tx.commit();
 		session.close();
 		
