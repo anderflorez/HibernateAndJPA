@@ -1,5 +1,6 @@
 package com.virtualpairprogrammers.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Student
     private String enrollmentID;
     private String name;
     
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="TUTOR_FK")
     private Tutor supervisor;
     

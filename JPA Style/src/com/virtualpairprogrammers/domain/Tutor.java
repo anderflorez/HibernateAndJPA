@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Tutor {
 	private String name;
 	private int salary;
 	
-	@OneToMany(mappedBy="supervisor")
+	@OneToMany(mappedBy="supervisor", cascade= { CascadeType.PERSIST })
 	private Set<Student> supervisionGroup;
 	
 	@ManyToMany
@@ -109,6 +110,12 @@ public class Tutor {
 		} else if (!staffId.equals(other.staffId))
 			return false;
 		return true;
+	}
+
+	public void createStudentAndAddToSupervisionGroup(String studentName, String enrollmentId)
+	{
+		Student student = new Student(studentName, enrollmentId);
+		this.addStudentToSupervisionGroup(student);		
 	}
 	
 	
