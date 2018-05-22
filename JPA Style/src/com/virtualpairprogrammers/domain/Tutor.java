@@ -28,7 +28,7 @@ public class Tutor {
 	@OneToMany(mappedBy="supervisor", cascade= { CascadeType.PERSIST })
 	private Set<Student> supervisionGroup;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="qualifiedTutors")
 	private Set<Subject> subjectsQualifiedToTeach;
 	
 	// Required by Hibernate
@@ -67,7 +67,7 @@ public class Tutor {
 		return this.subjectsQualifiedToTeach;
 	}
 	
-	public void addSubjectToQuialifications(Subject subject)
+	public void addSubjectToQualifications(Subject subject)
 	{
 		subject.getQualifiedTutors().add(this);
 		this.subjectsQualifiedToTeach.add(subject);

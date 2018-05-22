@@ -17,11 +17,12 @@ public class Subject
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(unique=true, nullable=false)
+//	@Column(unique=true, nullable=false)
 	private String subjectName;
+	
 	private int numbnerOfSemesters;
 	
-	@ManyToMany(mappedBy="subjectsQualifiedToTeach")
+	@ManyToMany
 	private Set<Tutor> qualifiedTutors;
 	
 	// Hibernate required a no-argument constructor
