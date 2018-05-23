@@ -136,5 +136,10 @@ public class Student
 			return false;
 		return true;
 	}
+
+	public String getName()
+	{
+		return this.name;
+	}
 	
 }
