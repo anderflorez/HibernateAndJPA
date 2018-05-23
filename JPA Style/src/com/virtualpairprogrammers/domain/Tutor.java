@@ -45,6 +45,11 @@ public class Tutor {
 		this.subjectsQualifiedToTeach = new HashSet<>();
 	}
 	
+	public void doubleSalary() 
+	{
+		this.salary *= 2;
+	}
+	
 	public void addStudentToSupervisionGroup(Student studentToAdd)
 	{
 		this.supervisionGroup.add(studentToAdd);

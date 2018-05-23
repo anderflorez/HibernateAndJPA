@@ -125,12 +125,26 @@ public class HibernateTestHarness
 		//Counting records
 		long numberOfStudents = em.createQuery("select count (student) from Student student", Long.class).getSingleResult();
 		System.out.println(numberOfStudents);
-		
-		
+				
 		double averageSemesterLength = em.createQuery
 				("select avg(subject.numbnerOfSemesters) from Subject subject", Double.class)
 				.getSingleResult();
 		System.out.println(averageSemesterLength);
+		
+		
+		//Updating multiple records
+		//Working with objects is inefficient
+//		List<Tutor> allTutors = em.createQuery("from Tutor", Tutor.class).getResultList();
+//		for (Tutor next : allTutors)
+//		{
+//			next.doubleSalary();
+//		}
+		
+		//The better way is to use HQL update/delete
+//		int tutorsAffected = em.createQuery("update Tutor as tutor set tutor.salary = tutor.salary * 2").executeUpdate();
+//		System.out.println("Salary increased for " + tutorsAffected + " tutors");
+		
+		
 		
 		
 //		List<Student> allStudents = q.getResultList();
