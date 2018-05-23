@@ -6,8 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 
 import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Subject;
@@ -123,13 +126,13 @@ public class HibernateTestHarness
 		
 		
 		//Counting records
-		long numberOfStudents = em.createQuery("select count (student) from Student student", Long.class).getSingleResult();
-		System.out.println(numberOfStudents);
-				
-		double averageSemesterLength = em.createQuery
-				("select avg(subject.numbnerOfSemesters) from Subject subject", Double.class)
-				.getSingleResult();
-		System.out.println(averageSemesterLength);
+//		long numberOfStudents = em.createQuery("select count (student) from Student student", Long.class).getSingleResult();
+//		System.out.println(numberOfStudents);
+//				
+//		double averageSemesterLength = em.createQuery
+//				("select avg(subject.numbnerOfSemesters) from Subject subject", Double.class)
+//				.getSingleResult();
+//		System.out.println(averageSemesterLength);
 		
 		
 		//Updating multiple records
@@ -153,11 +156,11 @@ public class HibernateTestHarness
 //		}
 		
 		//Auto instantiate objects if all data needed to create the object is retrieved from the database
-		List<Student> results = em.createNativeQuery("select * from student s", Student.class).getResultList();
-		for (Student next : results)
-		{
-			System.out.println(next);
-		}
+//		List<Student> results = em.createNativeQuery("select * from student s", Student.class).getResultList();
+//		for (Student next : results)
+//		{
+//			System.out.println(next);
+//		}
 		
 		
 		
@@ -173,6 +176,37 @@ public class HibernateTestHarness
 //		{
 //			System.out.println(next);
 //		}
+		
+		
+		//Classic Criteria API
+		Session session = (Session) em.getDelegate();
+		
+//		Criteria criteria = session.createCriteria(Student.class);
+//		criteria.add(Restrictions.like("name", "%Marco%"));
+		
+//		Criteria criteria = session.createCriteria(Student.class);
+//		criteria.add(Restrictions.eq("name", "Kath Grainer"));
+		
+//		Criteria criteria = session.createCriteria(Student.class);
+//		criteria.add(Restrictions.ilike("name", "%fortes%"));
+		
+		//Walking the object graph many to one
+//		Criteria criteria = session.createCriteria(Student.class);
+//		criteria.createCriteria("supervisor").add(Restrictions.eq("name", "David Banks"));
+		
+//		Criteria criteria = session.createCriteria(Tutor.class);
+//		criteria.add(Restrictions.sizeEq("supervisionGroup", 0));
+		
+		Criteria criteria = session.createCriteria(Tutor.class);
+		criteria.createAlias("supervisionGroup", "student");
+		criteria.add(Restrictions.eq("student.address.city", "Georgia"));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		
+		List<Tutor> results = criteria.list();
+		for (Tutor next : results)
+		{
+			System.out.println(next);
+		}
 		
 		tx.commit();
 		em.close();
@@ -215,7 +249,7 @@ public class HibernateTestHarness
 		// this only works because we are cascading from tutor to student
 		t1.createStudentAndAddToSupervisionGroup("Marco Fortes", "1-FOR-2010", "1 The Street", "Georgia", "484848");
 		t1.createStudentAndAddToSupervisionGroup("Kath Grainer", "2-GRA-2009", "2 Kaths Street", "Georgia", "939393");
-		t3.createStudentAndAddToSupervisionGroup("Sandra Perkins", "3-PER-2009", "4 The Avenue", "Georgia", "939393");
+		t3.createStudentAndAddToSupervisionGroup("Sandra Perkins", "3-PER-2009", "4 The Avenue", "New York", "939393");
 		
 		tx.commit();
 		em.close();
