@@ -145,6 +145,21 @@ public class HibernateTestHarness
 //		System.out.println("Salary increased for " + tutorsAffected + " tutors");
 		
 		
+		//Native SQL
+//		List<Object[]> results = em.createNativeQuery("select s.name, s.enrollmentid from student s").getResultList();
+//		for (Object[] next : results)
+//		{
+//			System.out.println(next[0] + "; " + next[1]);
+//		}
+		
+		//Auto instantiate objects if all data needed to create the object is retrieved from the database
+		List<Student> results = em.createNativeQuery("select * from student s", Student.class).getResultList();
+		for (Student next : results)
+		{
+			System.out.println(next);
+		}
+		
+		
 		
 		
 //		List<Student> allStudents = q.getResultList();
