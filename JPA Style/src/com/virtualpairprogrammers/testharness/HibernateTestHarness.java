@@ -6,12 +6,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Restrictions;
-
+import com.virtualpairprogrammers.domain.Address;
 import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
@@ -81,7 +83,7 @@ public class HibernateTestHarness
 		
 		
 		
-		String city = "Georgia";
+//		String city = "Georgia";
 		
 //		TypedQuery<Tutor> q = em.createQuery("select tutor from Tutor tutor join tutor.supervisionGroup as student where student.address.city = :city ", Tutor.class);
 //		q.setParameter("city", city);
@@ -179,7 +181,8 @@ public class HibernateTestHarness
 		
 		
 		//Classic Criteria API
-		Session session = (Session) em.getDelegate();
+		
+//		Session session = (Session) em.getDelegate();
 		
 //		Criteria criteria = session.createCriteria(Student.class);
 //		criteria.add(Restrictions.like("name", "%Marco%"));
@@ -197,16 +200,84 @@ public class HibernateTestHarness
 //		Criteria criteria = session.createCriteria(Tutor.class);
 //		criteria.add(Restrictions.sizeEq("supervisionGroup", 0));
 		
-		Criteria criteria = session.createCriteria(Tutor.class);
-		criteria.createAlias("supervisionGroup", "student");
-		criteria.add(Restrictions.eq("student.address.city", "Georgia"));
-		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		//Joins
+		// Get a list of all tutors who have a student that live in Georgia
+//		Criteria criteria = session.createCriteria(Tutor.class);
+//		criteria.createAlias("supervisionGroup", "student");
+//		criteria.add(Restrictions.eq("student.address.city", "Georgia"));
+//		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		
-		List<Tutor> results = criteria.list();
-		for (Tutor next : results)
-		{
-			System.out.println(next);
-		}
+//		List<Tutor> results = criteria.list();
+//		for (Tutor next : results)
+//		{
+//			System.out.println(next);
+//		}
+		
+		
+		
+		//JPA Criteria API
+		
+		// the "from" clause
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+//		Root<Student> root = criteria.from(Student.class);
+//		Query q = em.createQuery(criteria);
+		
+		// Adding a "where" clause
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+//		Root<Student> root = criteria.from(Student.class);
+//		criteria.where(builder.equal(root.get("name"), "Marco Fortes"));
+//		TypedQuery<Student> q = em.createQuery(criteria);
+		
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+//		Root<Student> root = criteria.from(Student.class);
+//		criteria.where(builder.and(builder.equal(root.get("name"), "Sandra Perkins"), builder.equal(root.get("enrollmentID"), "3-PER-2009")));
+//		TypedQuery<Student> q = em.createQuery(criteria);
+		
+		//Walking the object Graph
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+//		Root<Student> root = criteria.from(Student.class);
+//		Path<Tutor> tutor = root.get("supervisor");
+//		criteria.where(builder.equal(tutor.get("name"), "David Banks"));
+//		TypedQuery<Student> q = em.createQuery(criteria);
+		
+		//Using the like method
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+//		Root<Student> root = criteria.from(Student.class);
+//		criteria.where(builder.like(root.get("name"), "%k%"));
+//		TypedQuery<Student> q = em.createQuery(criteria);
+		
+		
+		// Using Joins
+		// Get a list of all tutors who have a student that live in Georgia
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<Tutor> criteria = builder.createQuery(Tutor.class).distinct(true);
+//		Root<Tutor> root = criteria.from(Tutor.class);
+//		// in this case we need a join from tutor to students
+//		Join<Tutor, Student> students = root.join("supervisionGroup");
+//		Path<Address> address = students.get("address");
+//		Path<String> city = address.get("city");
+//		criteria.where(builder.equal(city, "Georgia"));
+//		TypedQuery<Tutor> q = em.createQuery(criteria);
+		
+		
+		
+//		List<Student> results = q.getResultList();
+//		for (Student next : results)
+//		{
+//			System.out.println(next);
+//		}
+		
+//		List<Tutor> allTutors = q.getResultList();
+//		for (Tutor next : allTutors)
+//		{
+//			System.out.println(next);
+//		}
+
 		
 		tx.commit();
 		em.close();
@@ -249,7 +320,7 @@ public class HibernateTestHarness
 		// this only works because we are cascading from tutor to student
 		t1.createStudentAndAddToSupervisionGroup("Marco Fortes", "1-FOR-2010", "1 The Street", "Georgia", "484848");
 		t1.createStudentAndAddToSupervisionGroup("Kath Grainer", "2-GRA-2009", "2 Kaths Street", "Georgia", "939393");
-		t3.createStudentAndAddToSupervisionGroup("Sandra Perkins", "3-PER-2009", "4 The Avenue", "New York", "939393");
+		t3.createStudentAndAddToSupervisionGroup("Sandra Perkins", "3-PER-2009", "4 The Avenue", "Georgia", "939393");
 		
 		tx.commit();
 		em.close();
