@@ -16,16 +16,12 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
-public class Student
+public class Student extends Person
 {
 	// We're using field access, so the annotations are before the fields instead of the get methods
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
     
     @Column(unique=true, nullable=false)
     private String enrollmentID;
-    private String name;
     
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="TUTOR_FK")
@@ -39,7 +35,7 @@ public class Student
      */
     public Student ()
     {
-
+    	super(null);
     }
     
     /**
@@ -47,7 +43,7 @@ public class Student
      */
     public Student(String name, String enrollmentID, String street, String city, String zipOrPostcode)
     {
-    	this.name = name;
+    	super(name);
     	this.enrollmentID = enrollmentID;
     	this.supervisor = null;
     	this.address = new Address(street, city, zipOrPostcode);
@@ -55,7 +51,7 @@ public class Student
     
     public Student(String name, String enrollmentID)
     {
-    	this.name = name;
+    	super(name);
     	this.enrollmentID = enrollmentID;
     }
     
@@ -74,6 +70,11 @@ public class Student
     	newSupervisor.getModifiableSupervisionGroup().add(this);
     }
     
+    public void calculateReport()
+    {
+    	System.out.println("report for student " + this.getName());
+    }
+    
     public String getSupervisorName()
     {
     	return this.supervisor.getName();
@@ -81,13 +82,13 @@ public class Student
     
     public String toString() 
     {
-    	return this.name + " lives at: " + this.address;
+    	return this.getName() + " lives at: " + this.address;
     }
-
-    public int getId() 
-    {
-    	return this.id;
-    }
+    
+	public String getName()
+	{
+		return super.getName();
+	}
 
 	public String getEnrollmentId()
 	{
@@ -135,11 +136,6 @@ public class Student
 		} else if (!enrollmentID.equals(other.enrollmentID))
 			return false;
 		return true;
-	}
-
-	public String getName()
-	{
-		return this.name;
 	}
 	
 }

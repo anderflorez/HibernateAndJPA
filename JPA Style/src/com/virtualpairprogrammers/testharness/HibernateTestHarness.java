@@ -14,6 +14,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
 import com.virtualpairprogrammers.domain.Address;
+import com.virtualpairprogrammers.domain.Person;
 import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
@@ -24,10 +25,10 @@ public class HibernateTestHarness
 
 	public static void main(String[] args)
 	{		
-		setUpData();
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
+//		setUpData();
+//		EntityManager em = emf.createEntityManager();
+//		EntityTransaction tx = em.getTransaction();
+//		tx.begin();
 		
 		// let's do some queries!
 		
@@ -279,8 +280,31 @@ public class HibernateTestHarness
 //		}
 
 		
+//		tx.commit();
+//		em.close();
+		
+		
+		//Inheritance
+		
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		
+		Student newStudent = new Student("Bill Jones", "1-JON-2011", "4 the Terrace", "Chicago", "90393");
+		Tutor newTutor = new Tutor("99499", "Martha Revees", 90000);
+		
+		em.persist(newStudent);
+		em.persist(newTutor);
+		
+		List<Person> allPeople = em.createQuery("from Person", Person.class).getResultList();
+		for (Person next : allPeople)
+		{
+			next.calculateReport();
+		}
+		
 		tx.commit();
 		em.close();
+
 	}
 	
 	public static void setUpData()

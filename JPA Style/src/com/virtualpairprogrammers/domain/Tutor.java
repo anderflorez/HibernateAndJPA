@@ -14,15 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Tutor {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int Id;
-	
+public class Tutor extends Person
+{
 	@Column(unique=true, nullable=false)
 	private String staffId;
-	private String name;
 	private int salary;
 	
 	@OneToMany(mappedBy="supervisor", cascade= { CascadeType.PERSIST })
@@ -32,14 +27,16 @@ public class Tutor {
 	private Set<Subject> subjectsQualifiedToTeach;
 	
 	// Required by Hibernate
-	public Tutor() {}
+	public Tutor() 
+	{
+		super(null);
+	}
 
 	//Business constructor
 	public Tutor(String staffId, String name, int salary)
 	{
-		super();
+		super(name);
 		this.staffId = staffId;
-		this.name = name;
 		this.salary = salary;
 		this.supervisionGroup = new HashSet<>();
 		this.subjectsQualifiedToTeach = new HashSet<>();
@@ -54,6 +51,11 @@ public class Tutor {
 	{
 		this.supervisionGroup.add(studentToAdd);
 		studentToAdd.allocateSupervisor(this);
+	}
+	
+	public void calculateReport()
+	{
+		System.out.println("report for tutor " + this.getName());
 	}
 	
 	public Set<Student> getSupervisionGroup() 
@@ -80,12 +82,12 @@ public class Tutor {
 
 	public String getName()
 	{
-		return this.name;
+		return super.getName();
 	}
 	
 	public String toString()
 	{
-		return "Tutor: " + this.name + " (" + this.staffId + ") ";
+		return "Tutor: " + this.getName() + " (" + this.staffId + ") ";
 	}
 
 	@Override

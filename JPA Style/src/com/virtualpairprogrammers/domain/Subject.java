@@ -17,7 +17,7 @@ public class Subject
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-//	@Column(unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private String subjectName;
 	
 	private int numbnerOfSemesters;
