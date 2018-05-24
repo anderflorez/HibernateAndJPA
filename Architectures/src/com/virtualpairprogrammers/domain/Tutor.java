@@ -7,18 +7,25 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Tutor
 {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
 	@Column(unique=true, nullable=false)
 	private String staffId;
 	private int salary;
 	private String name;
 	
-	@OneToMany(mappedBy="supervisor", cascade= { CascadeType.PERSIST })
+	@OneToMany(mappedBy="supervisor", cascade= { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Student> supervisionGroup;
 	
 	@ManyToMany(mappedBy="qualifiedTutors")
@@ -117,6 +124,12 @@ public class Tutor
 	{
 		Student student = new Student(studentName, enrollmentId, street, city, zipOrPostcode);
 		this.addStudentToSupervisionGroup(student);
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+		
 	}
 	
 	

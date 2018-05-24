@@ -1,14 +1,22 @@
 package com.virtualpairprogrammers.testharness;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import com.virtualpairprogrammers.domain.Student;
+import com.virtualpairprogrammers.domain.Tutor;
+import com.virtualpairprogrammers.services.TutorManagement;
 
 public class HibernateTestHarness 
 {
-	public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDatabaseConfig");
-
 	public static void main(String[] args)
 	{		
+		TutorManagement tutorManagement = new TutorManagement();
+		Tutor newTutor = tutorManagement.createNewTutor("178939", "Clara Jones", 10000);
+		
+		// client will sit and wait ...
+		
+		newTutor.addStudentToSupervisionGroup(new Student("Andrew McCluskey", "1-MCC-1973"));
+		newTutor.addStudentToSupervisionGroup(new Student("Martin Cooper", "2-COO-1974"));
+		
+		tutorManagement.updateTutor(newTutor);
 		
 	}
 	
