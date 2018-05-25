@@ -66,8 +66,6 @@ public class PerformanceTesting
 //		t.setName("Richard Chesterwood");
 //		System.out.println(t2);
 		
-		
-		
 		//Example 2
 //		Tutor t = em.createQuery("select tutor from Tutor tutor where tutor.name='David Banks'", Tutor.class).getSingleResult();
 //		System.out.println(t.getSalary());
@@ -84,13 +82,13 @@ public class PerformanceTesting
 		
 		
 		// Forcing hibernate to refresh an object that is already in cache - useful in very rare ocations
-		Tutor t = em.find(Tutor.class, 1);
-		System.out.println(t.getSalary());
-		
-		//we do other things... - could trigger database processes of the database that modify the		
-		
-		em.refresh(t);
-		System.out.println(t.getSalary());
+//		Tutor t = em.find(Tutor.class, 1);
+//		System.out.println(t.getSalary());
+//		
+//		//we do other things... - could trigger database processes of the database that modify the		
+//		
+//		em.refresh(t);
+//		System.out.println(t.getSalary());
 		
 		
 		tx.commit();
