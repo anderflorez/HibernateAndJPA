@@ -21,6 +21,12 @@ public class PerformanceTesting
 		
 		// let's do some queries!
 		
+		Tutor tutor = em.find(Tutor.class, 1);
+		System.out.println("Tutor: " + tutor.getName() + " has a salary of " + tutor.getSalary());
+		
+		int numberOfStudents = tutor.getSupervisionGroup().size();
+		System.out.println("This tutor has " + numberOfStudents + " students");
+		
 		tx.commit();
 		em.close();
 	}
