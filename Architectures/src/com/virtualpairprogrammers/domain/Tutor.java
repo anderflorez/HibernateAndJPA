@@ -135,6 +135,11 @@ public class Tutor
 		this.name = name;
 		
 	}
+
+	public int getSalary()
+	{
+		return this.salary;
+	}
 	
 	
 

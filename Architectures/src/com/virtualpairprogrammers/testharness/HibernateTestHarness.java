@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import javax.persistence.OptimisticLockException;
 
-import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Tutor;
 import com.virtualpairprogrammers.services.TutorManagement;
 
@@ -22,6 +21,7 @@ public class HibernateTestHarness
 		System.out.println("Press enter to continue...");
 		Scanner sc = new Scanner(System.in);
 		sc.nextLine();
+		sc.close();
 
 		try
 		{

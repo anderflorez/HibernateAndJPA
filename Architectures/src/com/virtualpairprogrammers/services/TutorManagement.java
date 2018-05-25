@@ -1,8 +1,11 @@
 package com.virtualpairprogrammers.services;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
 import javax.persistence.Persistence;
 
 import com.virtualpairprogrammers.domain.Tutor;
@@ -65,6 +68,43 @@ public class TutorManagement
 		em.close();
 		
 		return tutorToUpdate;
+	}
+
+	//provide the names of every tutor in the college with their salary
+	// and a summary at the end with the total salary bill for the whole college
+	public void generateReport()
+	{
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		
+		List<Object[]> namesAndSalaries = em.createQuery("select tutor.name, tutor.salary from Tutor as tutor", Object[].class)
+				.setLockMode(LockModeType.PESSIMISTIC_READ)
+				.getResultList();
+		for (Object[] next: namesAndSalaries)
+		{
+			System.out.println(next[0] + " : " + next[1]);
+		}
+		
+		long totalSalary = em.createQuery("select sum(tutor.salary) from Tutor as tutor", Long.class).getSingleResult();
+		System.out.println("The total salary for the college is: " + totalSalary);
+		
+		tx.commit();
+		em.close();
+	}
+	
+	public void queryTutor()
+	{
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		
+		Tutor tutor = em.find(Tutor.class, 1);
+		System.out.println("The tutor's name is " + tutor.getName());
+		System.out.println("The tutor's salary is " + tutor.getSalary());
+		
+		tx.commit();
+		em.close();
 	}
 
 }
