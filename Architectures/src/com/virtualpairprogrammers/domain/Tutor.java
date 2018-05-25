@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class Tutor
@@ -30,6 +31,9 @@ public class Tutor
 	
 	@ManyToMany(mappedBy="qualifiedTutors")
 	private Set<Subject> subjectsQualifiedToTeach;
+	
+	@Version
+	private int version;
 	
 	// Required by Hibernate
 	public Tutor() {}

@@ -1,5 +1,9 @@
 package com.virtualpairprogrammers.testharness;
 
+import java.util.Scanner;
+
+import javax.persistence.OptimisticLockException;
+
 import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Tutor;
 import com.virtualpairprogrammers.services.TutorManagement;
@@ -9,14 +13,24 @@ public class HibernateTestHarness
 	public static void main(String[] args)
 	{		
 		TutorManagement tutorManagement = new TutorManagement();
-		Tutor newTutor = tutorManagement.createNewTutor("178939", "Clara Jones", 10000);
+		
+		Tutor newTutor = tutorManagement.findTutorById(1);
 		
 		// client will sit and wait ...
+		newTutor.setName("Process 2 Name");
 		
-		newTutor.addStudentToSupervisionGroup(new Student("Andrew McCluskey", "1-MCC-1973"));
-		newTutor.addStudentToSupervisionGroup(new Student("Martin Cooper", "2-COO-1974"));
-		
-		tutorManagement.updateTutor(newTutor);
+		System.out.println("Press enter to continue...");
+		Scanner sc = new Scanner(System.in);
+		sc.nextLine();
+
+		try
+		{
+			// Check for stale object
+			tutorManagement.updateTutor(newTutor);
+		} catch (OptimisticLockException e)
+		{
+			System.out.println("Sorry, that tutor has been updated or deleted by another process");
+		}
 		
 	}
 	

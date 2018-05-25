@@ -37,6 +37,20 @@ public class TutorManagement
 		return newTutor;
 	}
 	
+	public Tutor findTutorById(int id) 
+	{
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		
+		Tutor tutor = em.find(Tutor.class, id);
+		
+		tx.commit();
+		em.close();
+		
+		return tutor;
+	}
+	
 	public Tutor updateTutor(Tutor tutorToUpdate)
 	{
 		EntityManager em = emf.createEntityManager();
