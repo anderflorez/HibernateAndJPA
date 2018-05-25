@@ -14,7 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.BatchSize;
+
 @Entity
+@BatchSize(size=10)
 public class Tutor
 {
 	@Id

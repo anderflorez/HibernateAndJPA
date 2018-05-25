@@ -1,10 +1,13 @@
 package com.virtualpairprogrammers.testharness;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import com.virtualpairprogrammers.domain.Student;
 import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
 
@@ -21,11 +24,29 @@ public class PerformanceTesting
 		
 		// let's do some queries!
 		
-		Tutor tutor = em.find(Tutor.class, 1);
-		System.out.println("Tutor: " + tutor.getName() + " has a salary of " + tutor.getSalary());
+		//Lazy Initialization test example
+//		Tutor tutor = em.find(Tutor.class, 1);
+//		System.out.println("Tutor: " + tutor.getName() + " has a salary of " + tutor.getSalary());
+//		
+//		int numberOfStudents = tutor.getSupervisionGroup().size();
+//		System.out.println("This tutor has " + numberOfStudents + " students");
 		
-		int numberOfStudents = tutor.getSupervisionGroup().size();
-		System.out.println("This tutor has " + numberOfStudents + " students");
+		//Avoiding n+1 issue
+//		List<Student> allStudent = em.createQuery("select student from Student student left join fetch student.supervisor", Student.class).getResultList();
+//		for (Student next : allStudent)
+//		{
+//			System.out.println(next.getName() + " is supervised by " + next.getSupervisor().getName());
+//		}
+		
+		// Alternative solution = use a report query
+		List<Object[]> results = em.createQuery
+									("select student.name, student.supervisor.name from Student student", Object[].class)
+									.getResultList();
+		for (Object[] next : results)
+		{
+			System.out.println(next[0] + " is supervised by " + next[1]);
+		}
+		
 		
 		tx.commit();
 		em.close();

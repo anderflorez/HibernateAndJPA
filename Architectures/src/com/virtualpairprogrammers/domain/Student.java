@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Student
     
     private String name;
     
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name="TUTOR_FK")
     private Tutor supervisor;
     
