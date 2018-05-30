@@ -13,8 +13,8 @@
 		<query>select sum (tutor.salary) from Tutor as tutor</query>
 	</named-query>	
 
-	<named-query name="tutorByIdWithEagerFetchOfStudents">
-		<query>select tutor from Tutor as tutor left join fetch tutor.supervisionGroup where tutor.id = :id</query>
+	<named-query name="tutorByIdLazyFetch">
+		<query>select tutor from Tutor as tutor where tutor.id = :id</query>
 	</named-query>	
 
 

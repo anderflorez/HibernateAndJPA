@@ -1,11 +1,9 @@
 package com.virtualpairprogrammers.services;
 
-import java.rmi.server.UID;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import com.virtualpairprogrammers.domain.Tutor;
 import com.virtualpairprogrammers.hibernate.HibernateUtil;
@@ -32,30 +30,21 @@ public class TutorManagement
 
     public List<Tutor> getAllTutors()
     {
-    	EntityManager em  = HibernateUtil.getEntityManagerFactory().createEntityManager();
-    	EntityTransaction tx = em.getTransaction();
-    	tx.begin();
+    	EntityManager em  = HibernateUtil.getEntityManager();
 
-    	List<Tutor> allTutors = em.createNamedQuery("allTutors").getResultList();
+    	List<Tutor> allTutors = em.createNamedQuery("allTutors", Tutor.class).getResultList();
 
-    	tx.commit();
-    	em.close();
     	return allTutors;
     }
 
     public long getTotalSalaryBill()
     {
     	// gets the salary bill for the whole college
-    	EntityManager em  = HibernateUtil.getEntityManagerFactory().createEntityManager();
-    	EntityTransaction tx = em.getTransaction();
-    	tx.begin();
+    	EntityManager em  = HibernateUtil.getEntityManager();
     	
     	Long result = (Long)em.createNamedQuery("totalSalary").getSingleResult();
 
     	if (result == null) result = 0L;
-    	
-    	tx.commit();
-    	em.close();
 
     	return result;
     }
@@ -63,30 +52,24 @@ public class TutorManagement
     public Tutor findTutorByIdWithSupervisionGroup(int id) throws NoResultsFoundException
     {
        	// gets the salary bill for the whole college
-    	EntityManager em  = HibernateUtil.getEntityManagerFactory().createEntityManager();
-    	EntityTransaction tx = em.getTransaction();
-    	tx.begin();
+    	EntityManager em  = HibernateUtil.getEntityManager();
 
     	Tutor tutor;
 		try
     	{
-        	tutor = (Tutor)em.createNamedQuery("tutorByIdWithEagerFetchOfStudents").setParameter("id", id).getSingleResult();
+        	tutor = (Tutor)em.createNamedQuery("tutorByIdLazyFetch").setParameter("id", id).getSingleResult();
     	}
     	catch (javax.persistence.NoResultException e)
     	{
     		throw new NoResultsFoundException();
     	}
 
-    	tx.commit();
-    	em.close();
     	return tutor;
     }
 
 	public String createNewTutor(String name, int salary)
 	{
-    	EntityManager em  = HibernateUtil.getEntityManagerFactory().createEntityManager();
-    	EntityTransaction tx = em.getTransaction();
-    	tx.begin();
+		EntityManager em  = HibernateUtil.getEntityManager();
 
     	// generate a Staff Id. This is a very cheap way of doing it but it is a very
     	// long id!
@@ -94,9 +77,6 @@ public class TutorManagement
 
     	Tutor newTutor = new Tutor(staffId, name, salary);
     	em.persist(newTutor);
-
-    	tx.commit();
-    	em.close();
 
     	return staffId;
 	}

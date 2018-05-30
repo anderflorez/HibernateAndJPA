@@ -4,6 +4,17 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
          
+    <!-- Hibernate Filter Configuration -->
+	<filter>
+		<filter-name>HibernateFilter</filter-name>
+		<filter-class>com.virtualpairprogrammers.filters.HibernateFilter</filter-class>
+	</filter>
+	
+	<!-- When should the filter execute -->
+	<filter-mapping>
+		<filter-name>HibernateFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
 
 	<servlet>
 		<servlet-name>DisplayAllTutorsServlet</servlet-name>

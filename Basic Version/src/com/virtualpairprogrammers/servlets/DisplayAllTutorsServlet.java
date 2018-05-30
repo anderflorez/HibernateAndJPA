@@ -20,15 +20,24 @@ import com.virtualpairprogrammers.services.TutorManagement;
  */
 public class DisplayAllTutorsServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3979736678042465535L;
+
 	public void doGet (HttpServletRequest request, 
 			HttpServletResponse response) 
 			throws ServletException,IOException
 	{
 		// do some work
 		TutorManagement service = TutorManagement.getService();	
-
+		
 		List<Tutor> allTutors = service.getAllTutors();
+		
+		long totalSalaryBill = service.getTotalSalaryBill();
+		
 		request.setAttribute("allTutors", allTutors);
+		request.setAttribute("totalSalaryBill", totalSalaryBill);
 		
 		// forward to the displayAllBooks.jsp page to display the results
 		ServletContext context = getServletContext();

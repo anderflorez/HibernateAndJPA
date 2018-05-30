@@ -24,7 +24,10 @@
 					<td>${tutor.salary}</td>
 				</tr>
 			</c:forEach>
-	 	<table>
+	 	</table>
+	 	
+	 	<p>The total salary bill is ${totalSalaryBill}. </p>
+	 	
 		<jsp:include page="/footer.jsp"/>
 	</body>
 </html>

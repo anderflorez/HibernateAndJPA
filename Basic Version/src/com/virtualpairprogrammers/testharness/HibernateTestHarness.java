@@ -1,9 +1,5 @@
 package com.virtualpairprogrammers.testharness;
 
-import java.util.Scanner;
-
-import javax.persistence.OptimisticLockException;
-
 import com.virtualpairprogrammers.domain.Tutor;
 import com.virtualpairprogrammers.services.NoResultsFoundException;
 import com.virtualpairprogrammers.services.TutorManagement;

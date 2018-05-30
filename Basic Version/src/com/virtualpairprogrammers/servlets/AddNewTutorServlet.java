@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.virtualpairprogrammers.domain.Tutor;
 import com.virtualpairprogrammers.services.TutorManagement;
 
 /**
@@ -17,6 +16,8 @@ import com.virtualpairprogrammers.services.TutorManagement;
  */
 public class AddNewTutorServlet extends HttpServlet
 {
+	private static final long serialVersionUID = -7855010838815920031L;
+
 	public void doPost (HttpServletRequest request, 
 					     HttpServletResponse response) 
 			throws ServletException,IOException

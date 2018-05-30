@@ -16,13 +16,14 @@ public class Subject
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+
 	@Column(unique=true, nullable=false)
 	private String subjectName;
-	private int numberOfSemesters;
-	
+
 	@ManyToMany
 	private Set<Tutor> qualifiedTutors;
+	
+	private int numberOfSemesters;
 	
 	public Subject() {
 	}

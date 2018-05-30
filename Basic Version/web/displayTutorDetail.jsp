@@ -26,7 +26,7 @@
 					<td>${student.address}</td>
 				</tr>
 			</c:forEach>
-	 	<table>
+	 	</table>
 	 	
 	 	<jsp:include page="/footer.jsp"/>
 	</body>
